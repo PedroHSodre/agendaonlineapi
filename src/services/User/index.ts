@@ -1,8 +1,9 @@
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import { User } from "../../models/User";
 import { ICreateUserData, IUserData } from "../../types/User";
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
+import { Client } from "../../models/Client";
 
 export const createUser = async (user: ICreateUserData) => {
 
@@ -87,6 +88,38 @@ export const userExists = async (email: string, document: string) => {
         );
  
         return user;
+    } catch(err) {
+        console.log(err)
+        return null
+    }
+}
+
+export const userClients = async (uuid: string) => {
+    try {
+        const user = await User.findOne(
+            { 
+                attributes: [ 'name', 'email' ],
+                where: {
+                    [Op.or]: [
+                        { uuid: uuid }
+                    ] 
+                },
+                include: [ 
+                    {
+                        model: Client,
+                        as: 'clients'
+                    },
+                 ]
+            },
+        );
+ 
+        if(!user)
+            throw new Error("Usuário não encontrado");
+
+        const data = {
+            ...user.dataValues
+        }
+        return data;
     } catch(err) {
         console.log(err)
         return null

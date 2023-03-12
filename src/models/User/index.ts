@@ -1,10 +1,18 @@
-import { Table, Model, Column, DataType } from "sequelize-typescript";
+import { Table, Model, Column, DataType, Index } from "sequelize-typescript";
+import { Client } from "../Client";
 
 @Table({
   timestamps: false,
   tableName: "user",
 })
 export class User extends Model {
+  @Column({
+    type: DataType.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  })
+  id!: number;
+  
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -41,3 +49,7 @@ export class User extends Model {
   })
   document!: string;
 }
+
+
+
+// User.sync({ force: true })

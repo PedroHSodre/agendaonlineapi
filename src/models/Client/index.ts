@@ -1,4 +1,5 @@
 import { Table, Model, Column, DataType } from "sequelize-typescript";
+import { User } from "../User";
 
 @Table({
   timestamps: false,
@@ -39,11 +40,11 @@ export class Client extends Model {
     type: DataType.STRING,
     allowNull: true,
   })
-  cpf!: string;
+  document!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.INTEGER,
     allowNull: false,
   })
-  userUuid!: string;
+  userId!: number;
 }

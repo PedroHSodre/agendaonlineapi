@@ -5,6 +5,7 @@ import cors from 'cors';
 import AuthRoute from './router/auth';
 import UserRoute from './router/user';
 import ScheduleRoute from './router/schedule';
+import ClientRoute from './router/client';
 
 import connection from "./db/config";
 
@@ -17,7 +18,8 @@ app.use(urlencoded({ extended: true }));
 
 app.use("/auth", AuthRoute);
 app.use("/user", UserRoute);
-app.use("/schedule", ScheduleRoute)
+app.use("/schedule", ScheduleRoute);
+app.use("/client", ClientRoute)
 
 
 app.use(

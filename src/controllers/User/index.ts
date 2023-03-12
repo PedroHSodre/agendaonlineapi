@@ -9,7 +9,7 @@ export default {
         
         const userBodyIsValid = validateCreateUserBody(user);
     
-        if(userBodyIsValid.error) return res.send(400).json(userBodyIsValid);
+        if(userBodyIsValid.error) return res.status(400).json(userBodyIsValid);
     
         try {
             const response = await createUser(user);

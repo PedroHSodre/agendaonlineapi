@@ -18,7 +18,8 @@ const connection = new Sequelize({
     ],
   });
 
-
+  User.hasMany(Client, { foreignKey: 'userId', as: 'clients', onDelete: 'CASCADE' });
+  Client.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
 
 export default connection
 

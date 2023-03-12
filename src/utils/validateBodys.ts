@@ -1,5 +1,6 @@
 import { ICreateScheduleBody } from "../types/Schedule";
 import { ICreateUserData } from "../types/User";
+import { ICreateClientData } from "../types/Client";
 
 export function validateCreateUserBody(user: ICreateUserData) {
     if(!user.email) {
@@ -41,6 +42,57 @@ export function validateCreateUserBody(user: ICreateUserData) {
         message: ''
     };
 }
+
+export const validateCreateClientBody = async (client: ICreateClientData) => {
+    if(!client.email) {
+        const res = {
+            message: 'E-mail é obrigatorio!',
+            error: true
+        }
+
+        return res;
+    }
+    if(!client.name) {
+        const res = {
+            message: 'Nome é obrigatorio!',
+            error: true
+        }
+
+        return res;
+    }
+    if(!client.address) {
+        const res = {
+            message: 'Endereço é obrigatorio!',
+            error: true
+        }
+
+        return res;
+    }
+
+    if(!client.document) {
+        const res = {
+            message: 'CPF é obrigatorio!',
+            error: true
+        }
+
+        return res;
+    }
+
+    if(!client.userId) {
+        const res = {
+            message: 'Algo aconteceu de errado. Tente novamente!',
+            error: true
+        }
+
+        return res;
+    }
+    
+    return {
+        error: false,
+        message: ''
+    };
+}
+
 
 export function validateCreateScheduleBody(schedule: ICreateScheduleBody) {
     if(!schedule.name) {

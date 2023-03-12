@@ -1,9 +1,10 @@
 import { RequestHandler } from "express";
 import jwt from 'jsonwebtoken';
+import { getUserToken } from "../utils/userToken";
 
 export const authentication: RequestHandler = async (req, res, next) => {
-    const token = req?.headers?.authorization?.replace('Bearer ', '');
-    console.log(token)
+    const token = getUserToken(req);
+    
     if (!token)
         return res
                 .status(401)
