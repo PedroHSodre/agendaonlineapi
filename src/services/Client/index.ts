@@ -74,9 +74,9 @@ export const clientExists = async (email?: string, document?: string, uuid?: str
             { 
                 where: {
                     [Op.or]: [
-                        { email: email },
-                        { document: document },
-                        { uuid: uuid }
+                        { email: email ? email : ''},
+                        { document: document ? document : ''},
+                        { uuid: uuid ? uuid : ''}
                     ] 
                 }   
             }
@@ -84,7 +84,6 @@ export const clientExists = async (email?: string, document?: string, uuid?: str
  
         return client;
     } catch(err) {
-        console.log(err)
         return null
     }
 }
