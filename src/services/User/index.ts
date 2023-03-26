@@ -89,12 +89,12 @@ export const userExists = async (email: string, document: string) => {
  
         return user;
     } catch(err) {
-        console.log(err)
-        return null
+        console.log(err);
+        return null;
     }
 }
 
-export const userClients = async (uuid: string, page = 1, limit = 15) => {
+export const userClients = async (uuid: string, page: number, limit: number) => {
     
     const offset = (page - 1) * limit;
     
@@ -103,13 +103,13 @@ export const userClients = async (uuid: string, page = 1, limit = 15) => {
             where: {
                 userId: uuid
             },
-            limit,
-            offset
-        })
+            limit: limit ? limit : 15,
+            offset: page ? offset : 1
+        });
 
-        return clients
+        return clients;
     } catch(err) {
-        console.log(err)
-        return null
+        console.log(err);
+        return null;
     }
 }

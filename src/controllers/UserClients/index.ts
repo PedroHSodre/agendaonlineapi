@@ -10,12 +10,12 @@ export default {
 
         
         try {
-            const response = await userClients(user.uuid, Number(offset), Number(limit));
+            const response = await userClients(user.id, Number(offset), Number(limit));
 
             return res
                 .status(200)
                 .json(
-                    { error: false, message: "Sucesso!", ...response}
+                    { error: false, message: "Sucesso!", data: response}
                 );
         } catch(err) {
             console.log(err);
