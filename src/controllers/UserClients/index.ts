@@ -4,11 +4,13 @@ import { getUserTokenDecoded } from "../../utils/userToken";
 
 export default {
     index: async (req: Request, res: Response, next: NextFunction) => {
+        const {limit, offset} = req.params;
+
         const user = getUserTokenDecoded(req);
 
         
         try {
-            const response = await userClients(user.uuid);
+            const response = await userClients(user.uuid, Number(offset), Number(limit));
 
             return res
                 .status(200)

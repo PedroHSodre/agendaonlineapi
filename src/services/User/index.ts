@@ -94,32 +94,20 @@ export const userExists = async (email: string, document: string) => {
     }
 }
 
-export const userClients = async (uuid: string) => {
+export const userClients = async (uuid: string, page = 1, limit = 15) => {
+    
+    const offset = (page - 1) * limit;
+    
     try {
-        const user = await User.findOne(
-            { 
-                attributes: [ 'name', 'email' ],
-                where: {
-                    [Op.or]: [
-                        { uuid: uuid }
-                    ] 
-                },
-                include: [ 
-                    {
-                        model: Client,
-                        as: 'clients'
-                    },
-                 ]
+        const clients = await Client.findAll({
+            where: {
+                userId: uuid
             },
-        );
- 
-        if(!user)
-            throw new Error("Usuário não encontrado");
+            limit,
+            offset
+        })
 
-        const data = {
-            ...user.dataValues
-        }
-        return data;
+        return clients
     } catch(err) {
         console.log(err)
         return null
