@@ -7,6 +7,12 @@ export type ICreateClientData = {
     userId?: number
   }
 
-  export type IClientData = ICreateClientData & {
-    uuid: string;
-  }
+export type IClientData = ICreateClientData & {
+  uuid: string;
+}
+
+export type IGetClientParams = {
+  email?: string, 
+  document?: string, 
+  uuid?: string
+}

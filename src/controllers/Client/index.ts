@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { ICreateClientData, IClientData } from "../../types/Client";
-import { clientExists, createClient, delClient, updateClient } from "../../services/Client";
+import { getClient, createClient, delClient, updateClient } from "../../services/Client";
 import { validateCreateClientBody } from "../../utils/validateBodys";
 import { getUserTokenDecoded } from "../../utils/userToken";
 
@@ -46,7 +46,8 @@ export default {
     del: async (req: Request, res: Response) => {
         const uuid: string = req.params.uuid;
     
-        const client = await clientExists('', '', uuid);
+        const client = await getClient({ uuid });
+
         if(!uuid || !client) 
             return res
                     .status(400)
@@ -59,6 +60,30 @@ export default {
     
         try {
             const response = await delClient(uuid);
+    
+            return res.status(200).json(response);
+        } catch(err: any) {
+            return res.status(500).json({
+                error: true,
+                message: err.message
+            });
+        }
+    },
+    read: async (req: Request, res: Response) => {
+        const { uuid } = req.query;
+
+        if(!uuid || typeof uuid !== 'string') 
+            return res
+                    .status(400)
+                    .json(
+                            { 
+                                error: true, 
+                                message: 'Não foi possível encontrar esse cliente!'
+                            }
+                        );
+
+        try {
+            const response = await getClient({ uuid });
     
             return res.status(200).json(response);
         } catch(err: any) {

@@ -1,12 +1,17 @@
 import { Op } from "sequelize";
 import { Client } from "../../models/Client";
-import { ICreateClientData, IClientData } from "../../types/Client";
+import { ICreateClientData, IClientData, IGetClientParams } from "../../types/Client";
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 
 export const createClient = async (client: ICreateClientData) => {
 
-    const exists = await clientExists(client.email, client.document);
+    const exists = await getClient(
+            {
+                email: client.email, 
+                document: client.document
+            }
+        );
 
     if(!exists) {
         const newClient = {
@@ -68,15 +73,16 @@ export const getClientByEmail = async (email: string) => {
     }
 }
 
-export const clientExists = async (email?: string, document?: string, uuid?: string) => {
+export const getClient = async (data: IGetClientParams) => {
+    console.log(data)
     try {
         const client = await Client.findOne(
             { 
                 where: {
                     [Op.or]: [
-                        { email: email ? email : ''},
-                        { document: document ? document : ''},
-                        { uuid: uuid ? uuid : ''}
+                        { email: data.email ? data.email : ''},
+                        { document: data.document ? data.document : ''},
+                        { uuid: data.uuid ? data.uuid : ''}
                     ] 
                 }   
             }

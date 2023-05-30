@@ -94,14 +94,14 @@ export const userExists = async (email: string, document: string) => {
     }
 }
 
-export const userClients = async (uuid: string, page: number, limit: number) => {
+export const userClients = async (userId: string, page: number, limit: number) => {
     
     const offset = (page - 1) * limit;
     
     try {
         const clients = await Client.findAll({
             where: {
-                userId: uuid
+                userId
             },
             limit: limit ? limit : 15,
             offset: page ? offset : 1

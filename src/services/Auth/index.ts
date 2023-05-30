@@ -3,13 +3,13 @@ import comparePasswordEncrypted from "../../utils/comparePasswordEncrypted";
 import { getUserByEmail } from "../User";
 
 export const authenticate = async (email: string, password: string) => {
-    const userExists = await getUserByEmail(email);
+    const user = await getUserByEmail(email);
 
-    if(!userExists) 
+    if(!user) 
         throw new Error('Não foi possível fazer login!');
 
-    if(userExists) {
-        const passwordIsEqual = await comparePasswordEncrypted(userExists.password, password);
+    if(user) {
+        const passwordIsEqual = await comparePasswordEncrypted(user.password, password);
 
         if(!passwordIsEqual)
             throw new Error('Não foi possivel fazer o login!');
@@ -19,14 +19,14 @@ export const authenticate = async (email: string, password: string) => {
                 message: "Usuario logado com sucesso!", 
                 data: {
                     user: {
-                        email: userExists.email,
-                        id: userExists.id,
-                        cellphone: userExists.cellphone,
-                        name: userExists.name
+                        email: user.email,
+                        id: user.id,
+                        cellphone: user.cellphone,
+                        name: user.name
                     },
                     token: jwt.sign(
                         {
-                            ...userExists
+                            ...user
                         }, 
                         'ProtectToken', 
                         { 
