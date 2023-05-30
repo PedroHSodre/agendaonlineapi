@@ -9,7 +9,7 @@ export const auth: RequestHandler = async (req, res) => {
     
     if(!email || !password) 
         return res
-                .status(400)
+                .status(401)
                 .json({error: true, message: 'Email e senha são obrigatórios.'});
     
     try {
@@ -17,6 +17,6 @@ export const auth: RequestHandler = async (req, res) => {
         
         return res.status(200).json(response);
     } catch(err: any) {
-        return res.status(400).json({error: true, message: err.message});
+        return res.status(401).json({error: true, message: err.message});
     }
 }
